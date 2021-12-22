@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppPoriteTestingMachine", "WebAppPoriteTestingMachine\WebAppPoriteTestingMachine.csproj", "{7C5BF6B6-D075-4D93-BDF5-3166E56FDC17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C5BF6B6-D075-4D93-BDF5-3166E56FDC17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5BF6B6-D075-4D93-BDF5-3166E56FDC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5BF6B6-D075-4D93-BDF5-3166E56FDC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5BF6B6-D075-4D93-BDF5-3166E56FDC17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8945B492-8C72-4577-902D-78F73840B157}
+	EndGlobalSection
+EndGlobal

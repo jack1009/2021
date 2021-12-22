@@ -1,0 +1,15 @@
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\21-306.exe.config
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\21-306.exe
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\21-306.pdb
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\HslCommunication.dll
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\Newtonsoft.Json.dll
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\HslCommunication.xml
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\bin\Debug\Newtonsoft.Json.xml
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.csprojAssemblyReference.cache
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\_21_306.Form1.resources
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\_21_306.Properties.Resources.resources
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.csproj.GenerateResource.cache
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.csproj.CoreCompileInputs.cache
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.csproj.CopyComplete
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.exe
+D:\工作-進行中\21-306_輪圈止付螺絲自動供料CCD鎖付機\C#\21-306\21-306\obj\Debug\21-306.pdb

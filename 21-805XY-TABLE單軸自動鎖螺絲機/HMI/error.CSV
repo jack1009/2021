@@ -1,0 +1,17 @@
+Error_SafetyOKStatus
+Error_LightCurtainStatus
+Error_PB_EStop
+Error_SNR_AirSource
+Error_SNR_Full
+Error_SNR_Feed
+Error_SNR_OnSeat
+Error_LS_UpDownBack
+Error_LS_UpDownOut
+Error_LS_PressBack
+Error_LS_PressOut
+Error_LS_Door
+Error_AxisX
+Error_AxisY
+Error_AxisScrew
+Error_PCConnectTimeOut
+Error_ScrewTotalNG

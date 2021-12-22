@@ -1,0 +1,8 @@
+﻿PLC2PC_GetBarcodeStart,W0
+PLC2PC_BarcodeCount,W1
+PLC2PC_BarcodeString,W2-W1F
+PLC2PC_GetScrewDataStart,W20
+PLC2PC_ClearData,W21
+
+PC2PLC_GetBarcodeFinish,W100
+PC2PLC_GetScrewDataFinish,W101
