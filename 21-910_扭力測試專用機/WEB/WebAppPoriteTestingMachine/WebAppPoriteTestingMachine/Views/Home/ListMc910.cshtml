@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebAppPoriteTestingMachine.Models.MC910Table>
+
+@{
+    Layout = null;
+    int DataCount = Model.Count();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+</head>
+<body>
+    <p>
+        @*@Html.ActionLink("Create New", "Create")*@
+    </p>
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QRCode)<p>條碼</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingDateTime)<p>測試日期時間</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgmentResult)<p>判斷結果</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingAngle)<p>角度值</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingTorque)<p>扭力值</p>
+            </th>
+            @*<th></th>*@
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QRCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestingDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgmentResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestingAngle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestingTorque)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                        @Html.ActionLink("Details", "DetailsMc910", new { id=item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                    </td>*@
+            </tr>
+        }
+
+    </table>
+    <hr />
+    <p>共計 @Html.Label(DataCount.ToString())筆資料</p>
+</body>
+</html>

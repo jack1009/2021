@@ -1,0 +1,68 @@
+﻿@model WebAppPoriteTestingMachine.Models.MC910Table
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>MC910Table</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(m=>m.ID)</dt>
+            <dd>@Html.DisplayFor(model=>model.ID)</dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.QRCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.QRCode)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TestingDateTime)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TestingDateTime)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.JudgmentResult)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.JudgmentResult)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TestingAngle)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TestingAngle)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TestingTorque)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TestingTorque)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "ListMc910")
+    </p>
+</body>
+</html>

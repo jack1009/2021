@@ -1,0 +1,71 @@
+﻿@model WebAppPoriteTestingMachine.Models.MC908Table
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Query908Index</title>
+</head>
+<body>
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    
+    
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>有負載測試資料查詢</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.QRCode, htmlAttributes: new { @class = "control-label col-md-2" })條碼
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.QRCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.QRCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.TestingDateTime, htmlAttributes: new { @class = "control-label col-md-2" })依測試日期(查詢格式:年/月/日)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TestingDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TestingDateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.CCWJudgmentResult, htmlAttributes: new { @class = "control-label col-md-2" })依測試結果(查詢格式:OK,SNG(轉速NG),CNG(電流NG),ANG(全NG))
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CCWJudgmentResult, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CCWJudgmentResult, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.CWJudgmentResult, htmlAttributes: new { @class = "control-label col-md-2" })依測試結果(查詢格式:OK,SNG(轉速NG),CNG(電流NG),ANG(全NG))
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CWJudgmentResult, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CWJudgmentResult, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="送出查詢" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("返回", "Index")
+    </div>
+</body>
+</html>

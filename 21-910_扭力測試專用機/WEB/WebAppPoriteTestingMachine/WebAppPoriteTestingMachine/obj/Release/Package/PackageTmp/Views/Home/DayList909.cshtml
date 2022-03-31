@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebAppPoriteTestingMachine.Models.MC909Table>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DayList909</title>
+</head>
+<body>
+    @*<p>
+            @Html.ActionLink("Create New", "Create")
+        </p>*@
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QRCode)<p>條碼</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingDateTime)<p>測試日期時間</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWJudgmentResult)<p>正轉判斷結果</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWJudgmentResult)<p>反轉判斷結果</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWSpeed)<p>正轉轉速</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWSpeed)<p>反轉轉速</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWCurrent)<p>正轉電流</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWCurrent)<p>反轉電流</p>
+            </th>
+            @*<th></th>*@
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QRCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestingDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWJudgmentResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWJudgmentResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWSpeed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWSpeed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWCurrent)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                    </td>*@
+            </tr>
+        }
+
+    </table>
+    <hr />
+    @Html.ActionLink("存檔", "SaveDayList909")
+    @*<hr />
+    @using (Html.BeginForm())
+    {
+        <input type="text" value="@today" name="searchDay" />
+        <input type="submit" value="Search" />
+    }*@
+</body>
+</html>

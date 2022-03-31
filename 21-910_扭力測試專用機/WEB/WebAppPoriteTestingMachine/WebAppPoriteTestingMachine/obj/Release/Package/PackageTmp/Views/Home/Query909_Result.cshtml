@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebAppPoriteTestingMachine.Models.MC909Table>
+
+@{
+    Layout = null;
+    int DataCount = Model.Count();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Query909_Result</title>
+</head>
+<body>
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QRCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWJudgmentResult)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWJudgmentResult)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CCWCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CWCurrent)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QRCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestingDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWJudgmentResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWJudgmentResult)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWSpeed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWSpeed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCWCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CWCurrent)
+                </td>
+            </tr>
+        }
+
+    </table>
+    <hr />
+    <p>共計 @Html.Label(DataCount.ToString())筆資料</p>
+</body>
+</html>

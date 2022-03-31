@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WebAppPoriteTestingMachine.Models.MC910Table>
+
+@{
+    Layout = null;
+    string today = DateTime.Now.ToString("yyyy/MM/dd");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DayList910</title>
+</head>
+<body>
+    @*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QRCode)<p>條碼</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingDateTime)<p>測試日期時間</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgmentResult)<p>判斷結果</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingAngle)<p>角度值</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingTorque)<p>扭力值</p>
+            </th>
+            @*<th></th>*@
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QRCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgmentResult)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingAngle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingTorque)
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>*@
+        </tr>
+    }
+    
+    </table>
+    <hr />
+    @Html.ActionLink("存檔", "SaveDayList910")
+    @*<hr />
+    @using (Html.BeginForm())
+    {
+        <input type="text" value="@today" name="searchDay" />
+        <input type="submit" value="Search" />
+    }*@
+</body>
+</html>

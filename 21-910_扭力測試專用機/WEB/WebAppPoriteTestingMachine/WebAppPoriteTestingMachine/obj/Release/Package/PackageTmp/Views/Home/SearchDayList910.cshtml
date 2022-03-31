@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebAppPoriteTestingMachine.Models.MC910Table>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchDayList</title>
+</head>
+<body>
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QRCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgmentResult)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingAngle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestingTorque)
+            </th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QRCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgmentResult)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingAngle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestingTorque)
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
