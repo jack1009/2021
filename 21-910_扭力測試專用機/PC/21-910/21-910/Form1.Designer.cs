@@ -36,22 +36,11 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbConnectStatus910 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView908 = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView909 = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView910 = new System.Windows.Forms.DataGridView();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.pbSaveData = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView908)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView909)).BeginInit();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView910)).BeginInit();
             this.SuspendLayout();
             // 
             // lbConnectStatus908
@@ -150,97 +139,50 @@
             this.label3.Text = "扭力測試機";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tabControl1
+            // dateTimePicker1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Font = new System.Drawing.Font("新細明體", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.tabControl1.Location = new System.Drawing.Point(12, 113);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1133, 599);
-            this.tabControl1.TabIndex = 17;
-            this.tabControl1.Visible = false;
+            this.dateTimePicker1.Location = new System.Drawing.Point(12, 111);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePicker1.TabIndex = 7;
             // 
-            // tabPage1
+            // pbSaveData
             // 
-            this.tabPage1.Controls.Add(this.dataGridView908);
-            this.tabPage1.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.tabPage1.Location = new System.Drawing.Point(4, 37);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1125, 558);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "908";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.pbSaveData.Location = new System.Drawing.Point(218, 111);
+            this.pbSaveData.Name = "pbSaveData";
+            this.pbSaveData.Size = new System.Drawing.Size(75, 23);
+            this.pbSaveData.TabIndex = 8;
+            this.pbSaveData.Text = "存檔";
+            this.pbSaveData.UseVisualStyleBackColor = true;
+            this.pbSaveData.Click += new System.EventHandler(this.pbSaveData_Click);
             // 
-            // dataGridView908
+            // label4
             // 
-            this.dataGridView908.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView908.Location = new System.Drawing.Point(3, 6);
-            this.dataGridView908.Name = "dataGridView908";
-            this.dataGridView908.RowTemplate.Height = 24;
-            this.dataGridView908.Size = new System.Drawing.Size(1116, 561);
-            this.dataGridView908.TabIndex = 8;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(310, 122);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(253, 12);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "或可手動挑選日期存檔,位置:D:\\DailyReport\\之下";
             // 
-            // tabPage2
+            // label5
             // 
-            this.tabPage2.Controls.Add(this.dataGridView909);
-            this.tabPage2.Location = new System.Drawing.Point(4, 37);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1125, 558);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "909";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView909
-            // 
-            this.dataGridView909.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView909.Location = new System.Drawing.Point(6, 6);
-            this.dataGridView909.Name = "dataGridView909";
-            this.dataGridView909.RowTemplate.Height = 24;
-            this.dataGridView909.Size = new System.Drawing.Size(1085, 536);
-            this.dataGridView909.TabIndex = 8;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.dataGridView910);
-            this.tabPage3.Location = new System.Drawing.Point(4, 37);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1125, 558);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "910";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(7, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(154, 40);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Show Data";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // dataGridView910
-            // 
-            this.dataGridView910.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView910.Location = new System.Drawing.Point(3, 52);
-            this.dataGridView910.Name = "dataGridView910";
-            this.dataGridView910.RowTemplate.Height = 24;
-            this.dataGridView910.Size = new System.Drawing.Size(1103, 497);
-            this.dataGridView910.TabIndex = 7;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(310, 107);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(137, 12);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "每日關閉程式時自動存檔";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 106);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(623, 148);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.pbSaveData);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -248,14 +190,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView908)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView909)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView910)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -268,14 +204,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lbConnectStatus910;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView908;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView dataGridView909;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataGridView dataGridView910;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button pbSaveData;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 

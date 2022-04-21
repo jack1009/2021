@@ -30,5 +30,13 @@ namespace WebAppPoriteTestingMachine.Models
         public double? CCWCurrent { get; set; }
 
         public double? CWCurrent { get; set; }
+
+        public double? CCWAvgSpeed { get; set; }
+
+        public double? CWAvgSpeed { get; set; }
+
+        public double? CCWAvgCurrent { get; set; }
+
+        public double? CWAvgCurrent { get; set; }
     }
 }

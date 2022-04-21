@@ -44,56 +44,61 @@ namespace _21_910
             t909.Start();
             t908.Start();
         }
-        private void SaveData(IQueryable<MC910Table> tables)
+        private void SaveData(IQueryable<MC910Table> tables,DateTime date)
         {
             string savetext = "QR Code,測試日期時間,測試結果,測試角度,測試扭力" + Environment.NewLine;
             foreach (var item in tables)
             {
                 savetext += item.QRCode + "," + item.TestingDateTime + "," + item.JudgmentResult + "," + item.TestingAngle + "," + item.TestingTorque + Environment.NewLine;
             }
-            File.WriteAllText($"D:/DailyReport/扭力測試機/{DateTime.Today.ToString("yyyyMMdd")}.csv", savetext);
+            File.WriteAllText($"D:/DailyReport/扭力測試機/{date.ToString("yyyyMMdd")}.csv", savetext,Encoding.Default);
         }
-        private void SaveData(IEnumerable<MC909Table> tables)
+        private void SaveData(IEnumerable<MC909Table> tables,DateTime date)
         {
-            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉速度,反轉速度,正轉電流,反轉電流" + Environment.NewLine;
+            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉峰值速度,反轉峰值速度,正轉峰值電流,反轉峰值電流,正轉平均速度,反轉平均速度,正轉平均電流,反轉平均電流" + Environment.NewLine;
             foreach (var item in tables)
             {
                 savetext += item.QRCode + "," + item.TestingDateTime + ","
                     + item.CCWJudgmentResult + "," + item.CWJudgmentResult + ","
                     + item.CCWSpeed + "," + item.CWSpeed + ","
-                    + item.CCWCurrent + "," + item.CWCurrent + Environment.NewLine;
+                    + item.CCWCurrent + "," + item.CWCurrent + ","
+                    + item.CCWAvgSpeed + "," + item.CWAvgSpeed + ","
+                    + item.CCWAvgCurrent + "," + item.CWAvgCurrent + Environment.NewLine;
             }
-            File.WriteAllText($"D:/DailyReport/無負載測試機/{DateTime.Today.ToString("yyyyMMdd")}.csv", savetext);
+            File.WriteAllText($"D:/DailyReport/無負載測試機/{date.ToString("yyyyMMdd")}.csv", savetext,Encoding.Default);
         }
-        private void SaveData(IEnumerable<MC908Table> tables)
+        private void SaveData(IEnumerable<MC908Table> tables,DateTime date)
         {
-            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉速度,反轉速度,正轉電流,反轉電流" + Environment.NewLine;
+            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉峰值速度,反轉峰值速度,正轉峰值電流,反轉峰值電流,正轉平均速度,反轉平均速度,正轉平均電流,反轉平均電流" + Environment.NewLine;
             foreach (var item in tables)
             {
                 savetext += item.QRCode + "," + item.TestingDateTime + ","
-                    + item.CCWJudgmentResult + "," + item.CWJudgmentResult + ","
-                    + item.CCWSpeed + "," + item.CWSpeed + ","
-                    + item.CCWCurrent + "," + item.CWCurrent + Environment.NewLine;
+                     + item.CCWJudgmentResult + "," + item.CWJudgmentResult + ","
+                     + item.CCWSpeed + "," + item.CWSpeed + ","
+                     + item.CCWCurrent + "," + item.CWCurrent + ","
+                     + item.CCWAvgSpeed + "," + item.CWAvgSpeed + ","
+                     + item.CCWAvgCurrent + "," + item.CWAvgCurrent + Environment.NewLine;
             }
-            File.WriteAllText($"D:/DailyReport/有負載測試機/{DateTime.Today.ToString("yyyyMMdd")}.csv", savetext);
+            File.WriteAllText($"D:/DailyReport/有負載測試機/{date.ToString("yyyyMMdd")}.csv", savetext, Encoding.Default);
         }
-        private void SaveDailyReport()
+        private void SaveDailyReport(DateTime date)
         {
-            DateTime today = DateTime.Today;
+            DateTime today = date.Date;
+            DateTime today_1 = date.AddDays(1);
             using (PoriteDBModelContext db=new PoriteDBModelContext())
             {
                 try
                 {
-                    IQueryable<MC908Table> x = db.MC908Table.Where(p => p.TestingDateTime >= today);
-                    IQueryable<MC909Table> y = db.MC909Table.Where(p => p.TestingDateTime >= today);
-                    IQueryable<MC910Table> z = db.MC910Table.Where(p => p.TestingDateTime >= today);
+                    IQueryable<MC908Table> x = db.MC908Table.Where(p => p.TestingDateTime >= today && p.TestingDateTime<today_1);
+                    IQueryable<MC909Table> y = db.MC909Table.Where(p => p.TestingDateTime >= today && p.TestingDateTime < today_1);
+                    IQueryable<MC910Table> z = db.MC910Table.Where(p => p.TestingDateTime >= today && p.TestingDateTime < today_1);
 
                     Directory.CreateDirectory(@"D:\DailyReport\有負載測試機\");
                     Directory.CreateDirectory(@"D:\DailyReport\無負載測試機\");
                     Directory.CreateDirectory(@"D:\DailyReport\扭力測試機\");
-                    SaveData(x);
-                    SaveData(y);
-                    SaveData(z);
+                    SaveData(x,date);
+                    SaveData(y,date);
+                    SaveData(z,date);
                 }
                 catch (Exception ex)
                 {
@@ -123,7 +128,7 @@ namespace _21_910
                             MC910Table table = new MC910Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_910.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_910.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -176,7 +181,7 @@ namespace _21_910
                                         else
                                         {
                                             //得到扭力
-                                            table.TestingTorque = readFloatResult.Content;
+                                            table.TestingTorque = Math.Round(readFloatResult.Content, 3, MidpointRounding.AwayFromZero);
                                             try
                                             {
                                                 int count = _db.MC910Table.Count();
@@ -224,7 +229,7 @@ namespace _21_910
                 //存檔檢查
                 if (DateTime.Now.Hour==23 && DateTime.Now.Minute==59 && DateTime.Now.Second==59)
                 {
-                    SaveDailyReport();
+                    SaveDailyReport(DateTime.Today);
                 }
                 Thread.Sleep(1000);
             }
@@ -253,7 +258,7 @@ namespace _21_910
                             MC909Table table = new MC909Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -312,19 +317,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -337,19 +342,24 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
                                     }
                                     else
                                     {
-                                        //得到角度
+                                        //得到角度,電流
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+                                        
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -398,7 +408,7 @@ namespace _21_910
                             MC909Table table = new MC909Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -457,19 +467,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -482,7 +492,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -491,10 +501,15 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -543,7 +558,7 @@ namespace _21_910
                             MC909Table table = new MC909Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -602,19 +617,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -627,7 +642,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -636,10 +651,15 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -688,7 +708,7 @@ namespace _21_910
                             MC909Table table = new MC909Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_909.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -747,19 +767,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -772,7 +792,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -781,10 +801,15 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -855,7 +880,7 @@ namespace _21_910
                             MC908Table table = new MC908Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -914,19 +939,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -939,7 +964,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -948,10 +973,15 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1000,7 +1030,7 @@ namespace _21_910
                             MC908Table table = new MC908Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -1059,19 +1089,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -1084,7 +1114,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -1093,10 +1123,15 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+
+                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
+                                        table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1145,7 +1180,7 @@ namespace _21_910
                             MC908Table table = new MC908Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -1204,19 +1239,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -1229,7 +1264,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -1238,10 +1273,21 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
+                                        int[] iValue = new int[Value.Length];
+                                        for (int ix = 0; ix < Value.Length; ix++)
+                                        {
+                                            iValue[ix] = (int)(Value[ix] * 1000);
+                                            float ff = (float)iValue[ix];
+                                            Value[ix] = ff / 1000;
+                                        }
                                         table.CCWSpeed = Value[0];
                                         table.CWSpeed = Value[1];
                                         table.CCWCurrent = Value[2];
                                         table.CWCurrent = Value[3];
+                                        table.CCWAvgSpeed = Value[4];
+                                        table.CWAvgSpeed = Value[5];
+                                        table.CCWAvgCurrent = Value[6];
+                                        table.CWAvgCurrent = Value[7];
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1290,7 +1336,7 @@ namespace _21_910
                             MC908Table table = new MC908Table();
                         //取得條碼
                         mark2:
-                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 10);
+                            OperateResult<string> readStringResult = Fx5_908.ReadString($"R{DataAddressBase + i * 50 + 0}", 8);
                             if (!readStringResult.IsSuccess)
                             {
                                 goto mark2;
@@ -1349,19 +1395,19 @@ namespace _21_910
                                     }
                                     else
                                     {
-                                        if (i16[6] == 2)
+                                        if (i16[7] == 2)
                                         {
                                             table.CWJudgmentResult = "SNG";
                                         }
                                         else
                                         {
-                                            if (i16[6] == 3)
+                                            if (i16[7] == 3)
                                             {
                                                 table.CWJudgmentResult = "CNG";
                                             }
                                             else
                                             {
-                                                if (i16[6] == 4)
+                                                if (i16[7] == 4)
                                                 {
                                                     table.CWJudgmentResult = "ANG";
                                                 }
@@ -1374,7 +1420,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 4);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -1383,10 +1429,21 @@ namespace _21_910
                                     {
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
+                                        int[] iValue = new int[Value.Length];
+                                        for (int ix = 0; ix < Value.Length; ix++)
+                                        {
+                                            iValue[ix] = (int)(Value[ix] * 1000);
+                                            float ff = (float)iValue[ix];
+                                            Value[ix] = ff / 1000;
+                                        }
                                         table.CCWSpeed = Value[0];
                                         table.CWSpeed = Value[1];
                                         table.CCWCurrent = Value[2];
                                         table.CWCurrent = Value[3];
+                                        table.CCWAvgSpeed = Value[4];
+                                        table.CWAvgSpeed = Value[5];
+                                        table.CCWAvgCurrent = Value[6];
+                                        table.CWAvgCurrent = Value[7];
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1436,7 +1493,13 @@ namespace _21_910
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveDailyReport();
+            SaveDailyReport(DateTime.Today);
+        }
+
+        private void pbSaveData_Click(object sender, EventArgs e)
+        {
+            DateTime d = dateTimePicker1.Value;
+            SaveDailyReport(d);
         }
         #region --UI--
         delegate void dgLabelConnectStatus(Label ctl,int state);
@@ -1478,16 +1541,6 @@ namespace _21_910
 
         #endregion
         #region 無用
-        private void MC910DataList()
-        {
-            this.dataGridView910.DataSource = _db.MC910Table.ToList();
-            this.dataGridView910.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MC910DataList();
-        }
         #endregion
     }
 }

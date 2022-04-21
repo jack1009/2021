@@ -12,8 +12,8 @@
     <title>Query908Index</title>
 </head>
 <body>
-    @*@Scripts.Render("~/bundles/jquery")*@
-    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")*@
     
     
     @using (Html.BeginForm()) 
@@ -21,7 +21,7 @@
         @Html.AntiForgeryToken()
         
         <div class="form-horizontal">
-            <h4>有負載測試資料查詢</h4>
+            <h4>MC908Table</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -55,7 +55,7 @@
                     @Html.ValidationMessageFor(model => model.CWJudgmentResult, "", new { @class = "text-danger" })
                 </div>
             </div>
-    <br />
+    
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="送出查詢" class="btn btn-default" />

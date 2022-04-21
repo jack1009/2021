@@ -13,27 +13,25 @@
     <title>List</title>
 </head>
 <body>
-    <p>
-        @*@Html.ActionLink("Create New", "Create")*@
-    </p>
+    
     <table class="table" border="1">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QRCode)<p>條碼</p>
+               <p>條碼</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestingDateTime)<p>測試日期時間</p>
+               <p>測試日期時間</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JudgmentResult)<p>判斷結果</p>
+               <p>判斷結果</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestingAngle)<p>角度值</p>
+               <p>角度值</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestingTorque)<p>扭力值</p>
+              <p>扭力值</p>
             </th>
-            @*<th></th>*@
+         
         </tr>
 
         @foreach (var item in Model)
@@ -54,11 +52,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TestingTorque)
                 </td>
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                        @Html.ActionLink("Details", "DetailsMc910", new { id=item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-                    </td>*@
+                
             </tr>
         }
 

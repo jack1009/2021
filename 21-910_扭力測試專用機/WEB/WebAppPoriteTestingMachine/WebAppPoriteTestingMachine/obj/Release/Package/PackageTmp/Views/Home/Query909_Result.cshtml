@@ -16,59 +16,83 @@
     <table class="table" border="1">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QRCode)
+              <p>條碼</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TestingDateTime)
+              <p> 測試日期時間 </p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCWJudgmentResult)
+               <p>正轉判斷結果</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CWJudgmentResult)
+               <p>反轉判斷結果</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCWSpeed)
+              <p>正轉峰值轉速</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CWSpeed)
+                <p>反轉峰值轉速</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCWCurrent)
+               <p>正轉峰值電流</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CWCurrent)
+               <p>反轉峰值電流</p>
+            </th>
+            <th>
+                <p>正轉平均轉速</p>
+            </th>
+            <th>
+               <p>反轉平均轉速</p>
+            </th>
+            <th>
+               <p>正轉平均電流</p>
+            </th>
+            <th>
+               <p>反轉平均電流</p>
             </th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QRCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TestingDateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CCWJudgmentResult)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CWJudgmentResult)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CCWSpeed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CWSpeed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CCWCurrent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CWCurrent)
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.QRCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestingDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWJudgmentResult)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWJudgmentResult)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWSpeed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWSpeed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWAvgSpeed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWAvgSpeed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWAvgCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWAvgCurrent)
+        </td>
+    </tr>
         }
 
     </table>
