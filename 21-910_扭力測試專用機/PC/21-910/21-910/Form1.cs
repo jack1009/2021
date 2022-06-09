@@ -55,29 +55,25 @@ namespace _21_910
         }
         private void SaveData(IEnumerable<MC909Table> tables,DateTime date)
         {
-            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉峰值速度,反轉峰值速度,正轉峰值電流,反轉峰值電流,正轉平均速度,反轉平均速度,正轉平均電流,反轉平均電流" + Environment.NewLine;
+            string savetext = "QR Code,測試日期時間,正轉測試結果,正轉速度,正轉平均電流,正轉最大電流,正轉最小電流,反轉測試結果,反轉速度,反轉平均電流,反轉最大電流,反轉最小電流" + Environment.NewLine;
             foreach (var item in tables)
             {
                 savetext += item.QRCode + "," + item.TestingDateTime + ","
-                    + item.CCWJudgmentResult + "," + item.CWJudgmentResult + ","
-                    + item.CCWSpeed + "," + item.CWSpeed + ","
-                    + item.CCWCurrent + "," + item.CWCurrent + ","
-                    + item.CCWAvgSpeed + "," + item.CWAvgSpeed + ","
-                    + item.CCWAvgCurrent + "," + item.CWAvgCurrent + Environment.NewLine;
+                    + item.CCWJudgmentResult + "," + item.CCWAvgSpeed + "," + item.CCWAvgCurrent + "," + item.CCWMaxCurrent + "," + item.CCWMinCurrent + ","
+                    + item.CWJudgmentResult + "," + item.CWAvgSpeed + "," + item.CWAvgCurrent + "," + item.CWMaxCurrent + "," + item.CWMinCurrent
+                    + Environment.NewLine;
             }
             File.WriteAllText($"D:/DailyReport/無負載測試機/{date.ToString("yyyyMMdd")}.csv", savetext,Encoding.Default);
         }
         private void SaveData(IEnumerable<MC908Table> tables,DateTime date)
         {
-            string savetext = "QR Code,測試日期時間,正轉測試結果,反轉測試結果,正轉峰值速度,反轉峰值速度,正轉峰值電流,反轉峰值電流,正轉平均速度,反轉平均速度,正轉平均電流,反轉平均電流" + Environment.NewLine;
+            string savetext = "QR Code,測試日期時間,正轉測試結果,正轉速度,正轉平均電流,正轉最大電流,正轉最小電流,反轉測試結果,反轉速度,反轉平均電流,反轉最大電流,反轉最小電流" + Environment.NewLine;
             foreach (var item in tables)
             {
                 savetext += item.QRCode + "," + item.TestingDateTime + ","
-                     + item.CCWJudgmentResult + "," + item.CWJudgmentResult + ","
-                     + item.CCWSpeed + "," + item.CWSpeed + ","
-                     + item.CCWCurrent + "," + item.CWCurrent + ","
-                     + item.CCWAvgSpeed + "," + item.CWAvgSpeed + ","
-                     + item.CCWAvgCurrent + "," + item.CWAvgCurrent + Environment.NewLine;
+                    + item.CCWJudgmentResult + "," + item.CCWAvgSpeed + "," + item.CCWAvgCurrent + "," + item.CCWMaxCurrent + "," + item.CCWMinCurrent + ","
+                    + item.CWJudgmentResult + "," + item.CWAvgSpeed + "," + item.CWAvgCurrent + "," + item.CWMaxCurrent + "," + item.CWMinCurrent
+                    + Environment.NewLine;
             }
             File.WriteAllText($"D:/DailyReport/有負載測試機/{date.ToString("yyyyMMdd")}.csv", savetext, Encoding.Default);
         }
@@ -342,7 +338,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 10);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -352,14 +348,16 @@ namespace _21_910
                                         //得到角度,電流
                                         float[] Value = readFloatsResult.Content;
                                         
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMinCurrent = Math.Round(Value[8], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMinCurrent = Math.Round(Value[9], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -492,7 +490,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
+                                    OperateResult<float[]> readFloatsResult = Fx5_909.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 10);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -502,14 +500,16 @@ namespace _21_910
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
 
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMinCurrent = Math.Round(Value[8], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMinCurrent = Math.Round(Value[9], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC909Table.Count();
@@ -652,10 +652,10 @@ namespace _21_910
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
 
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
@@ -802,10 +802,10 @@ namespace _21_910
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
 
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
@@ -964,7 +964,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 10);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -974,14 +974,16 @@ namespace _21_910
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
 
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMinCurrent = Math.Round(Value[8], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMinCurrent = Math.Round(Value[9], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1114,7 +1116,7 @@ namespace _21_910
                                     }
                                 //取得速度,電流
                                 mark4:
-                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 8);
+                                    OperateResult<float[]> readFloatsResult = Fx5_908.ReadFloat($"R{DataAddressBase + i * 50 + 19}", 10);
                                     if (!readFloatsResult.IsSuccess)
                                     {
                                         goto mark4;
@@ -1124,14 +1126,16 @@ namespace _21_910
                                         //得到角度
                                         float[] Value = readFloatsResult.Content;
 
-                                        table.CCWSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
-                                        table.CWSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
-                                        table.CCWCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
-                                        table.CWCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxSpeed = Math.Round(Value[0], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxSpeed = Math.Round(Value[1], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMaxCurrent = Math.Round(Value[2], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMaxCurrent = Math.Round(Value[3], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgSpeed = Math.Round(Value[4], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgSpeed = Math.Round(Value[5], 3, MidpointRounding.AwayFromZero);
                                         table.CCWAvgCurrent = Math.Round(Value[6], 3, MidpointRounding.AwayFromZero);
                                         table.CWAvgCurrent = Math.Round(Value[7], 3, MidpointRounding.AwayFromZero);
+                                        table.CCWMinCurrent = Math.Round(Value[8], 3, MidpointRounding.AwayFromZero);
+                                        table.CWMinCurrent = Math.Round(Value[9], 3, MidpointRounding.AwayFromZero);
                                         try
                                         {
                                             int count = _db.MC908Table.Count();
@@ -1280,10 +1284,10 @@ namespace _21_910
                                             float ff = (float)iValue[ix];
                                             Value[ix] = ff / 1000;
                                         }
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+                                        table.CCWMaxSpeed = Value[0];
+                                        table.CWMaxSpeed = Value[1];
+                                        table.CCWMaxCurrent = Value[2];
+                                        table.CWMaxCurrent = Value[3];
                                         table.CCWAvgSpeed = Value[4];
                                         table.CWAvgSpeed = Value[5];
                                         table.CCWAvgCurrent = Value[6];
@@ -1436,10 +1440,10 @@ namespace _21_910
                                             float ff = (float)iValue[ix];
                                             Value[ix] = ff / 1000;
                                         }
-                                        table.CCWSpeed = Value[0];
-                                        table.CWSpeed = Value[1];
-                                        table.CCWCurrent = Value[2];
-                                        table.CWCurrent = Value[3];
+                                        table.CCWMaxSpeed = Value[0];
+                                        table.CWMaxSpeed = Value[1];
+                                        table.CCWMaxCurrent = Value[2];
+                                        table.CWMaxCurrent = Value[3];
                                         table.CCWAvgSpeed = Value[4];
                                         table.CWAvgSpeed = Value[5];
                                         table.CCWAvgCurrent = Value[6];

@@ -13,9 +13,7 @@
     <title>ListMc908</title>
 </head>
 <body>
-    @*<p>
-            @Html.ActionLink("Create New", "Create")
-        </p>*@
+ 
     <table class="table" border="1">
         <tr>
             <th>
@@ -28,31 +26,31 @@
                 <p>正轉判斷結果</p>
             </th>
             <th>
-               <p>反轉判斷結果</p>
-            </th>
-            <th>
-                <p>正轉峰值轉速</p>
-            </th>
-            <th>
-                <p>反轉峰值轉速</p>
-            </th>
-            <th>
-               <p>正轉峰值電流</p>
-            </th>
-            <th>
-                <p>反轉峰值電流</p>
-            </th>
-            <th>
-               <p>正轉平均轉速</p>
-            </th>
-            <th>
-                <p>反轉平均轉速</p>
+                <p>正轉轉速</p>
             </th>
             <th>
                 <p>正轉平均電流</p>
             </th>
             <th>
+                <p>正轉最大電流</p>
+            </th>
+            <th>
+                <p>正轉最小電流</p>
+            </th>
+            <th>
+                <p>反轉判斷結果</p>
+            </th>
+            <th>
+                <p>反轉轉速</p>
+            </th>
+            <th>
                 <p>反轉平均電流</p>
+            </th>
+            <th>
+                <p>反轉最大電流</p>
+            </th>
+            <th>
+                <p>反轉最小電流</p>
             </th>
         </tr>
 
@@ -69,37 +67,38 @@
             @Html.DisplayFor(modelItem => item.CCWJudgmentResult)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CWJudgmentResult)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CCWSpeed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CWSpeed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CCWCurrent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CWCurrent)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.CCWAvgSpeed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CWAvgSpeed)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CCWAvgCurrent)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.CCWMaxCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCWMinCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWJudgmentResult)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWAvgSpeed)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.CWAvgCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWMaxCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CWMinCurrent)
         </td>
     </tr>
         }
 
     </table>
     <hr />
+    <p>判斷結果-"CNG"=電流異常,"SNG"=轉速異常,"ANG"=電流及轉速皆異常,"NG"=未測試異常</p>
     <p>共計 @Html.Label(DataCount.ToString())筆資料</p>
 </body>
 </html>

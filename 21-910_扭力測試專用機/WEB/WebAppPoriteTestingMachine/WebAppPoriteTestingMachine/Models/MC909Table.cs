@@ -23,13 +23,13 @@ namespace WebAppPoriteTestingMachine.Models
         [StringLength(3)]
         public string CWJudgmentResult { get; set; }
 
-        public double? CCWSpeed { get; set; }
+        public double? CCWMaxSpeed { get; set; }
 
-        public double? CWSpeed { get; set; }
+        public double? CWMaxSpeed { get; set; }
 
-        public double? CCWCurrent { get; set; }
+        public double? CCWMaxCurrent { get; set; }
 
-        public double? CWCurrent { get; set; }
+        public double? CWMaxCurrent { get; set; }
 
         public double? CCWAvgSpeed { get; set; }
 
@@ -38,5 +38,8 @@ namespace WebAppPoriteTestingMachine.Models
         public double? CCWAvgCurrent { get; set; }
 
         public double? CWAvgCurrent { get; set; }
+        public double? CCWMinCurrent { get; set; }
+
+        public double? CWMinCurrent { get; set; }
     }
 }
